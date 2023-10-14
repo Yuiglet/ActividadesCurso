@@ -29,7 +29,6 @@ public class usuariosService {
             usuarioDto.setApellidoPa(user.getApellidoPa());
             usuarioDto.setApellidoMa(user.getApellidoMa());
             usuarioDto.setDireccion(user.getDireccion());
-            usuarioDto.setIdTienda(user.getIdTienda());
             listaUsuarios.add(usuarioDto);
         }
         return listaUsuarios;
@@ -44,7 +43,6 @@ public class usuariosService {
         Usuarios.setApellidoMa(dto.getApellidoMa());
         Usuarios.setCorreo(dto.getCorreo());
         Usuarios.setDireccion(dto.getDireccion());
-        Usuarios.setIdTienda(dto.getIdTienda());
         Usuarios = UsuariosRepository.save(Usuarios);
         dto.setIdUsuario(Usuarios.getIdUsuario());
         return dto;
