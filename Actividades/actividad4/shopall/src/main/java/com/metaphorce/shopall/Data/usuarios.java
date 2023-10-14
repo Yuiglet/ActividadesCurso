@@ -7,12 +7,11 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "usuarios")
-
 public class usuarios {
     @Id
     @Column(name = "id_usuario", nullable = false, length = 10)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idUsuario;
+    private Integer idUsuario;
 
     @Column(name = "nom_usuario", nullable = false, length = 45)
     private String nomUsuario;
@@ -35,6 +34,4 @@ public class usuarios {
     @Column(name = "direccion", nullable = false, length = 50)
     private String direccion;
 
-    @Column(name = "id_tienda", nullable = true, length = 45)
-    private String idTienda;
 }

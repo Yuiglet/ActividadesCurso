@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Setter
 @Getter
 public class usuariosDTO implements Serializable {
-    Long idUsuario;
+    Integer idUsuario;
     String nomUsuario;
     String correo;
     String contrasena;
@@ -20,7 +20,6 @@ public class usuariosDTO implements Serializable {
     String apellidoPa;
     String apellidoMa;
     String direccion;
-    String idTienda;
     public usuariosDTO() {
 
     }
