@@ -1,10 +1,8 @@
 package com.metaphorce.shopall.controller;
 
 import com.metaphorce.shopall.data.dto.usuariosDTO;
-import com.metaphorce.shopall.data.usuarios;
 import com.metaphorce.shopall.service.usuariosService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

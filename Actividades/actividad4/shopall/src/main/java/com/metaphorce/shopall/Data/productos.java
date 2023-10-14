@@ -1,22 +1,29 @@
 package com.metaphorce.shopall.data;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
+@Entity
+@Table(name = "productos")
 public class productos {
     @Id
-    @Column(name = "idProducto", nullable = false, length = 10)
+    @Column(name = "id_producto", nullable = false, length = 10)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idProducto;
+    private Integer idProducto;
+
     @Column(name = "nombre", nullable = false, length = 50)
     private String nombre;
+
     @Column(name = "descripcion", nullable = false, length = 250)
     private String descripcion;
+
     @Column(name = "precio", nullable = false, length = 10)
     private double precio;
 
-    @Column(name = "categoriaId", nullable = false, length = 10)
-    private String categoria;
-
-    @Column(name = "idTienda", nullable = false, length = 10)
-    private String tienda;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_categoria", nullable = false)
+    private categorias id_categoria;
 }
