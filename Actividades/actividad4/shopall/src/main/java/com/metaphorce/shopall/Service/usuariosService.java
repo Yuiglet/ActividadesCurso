@@ -2,12 +2,16 @@ package com.metaphorce.shopall.service;
 
 import com.metaphorce.shopall.data.dto.usuariosDTO;
 import com.metaphorce.shopall.data.usuarios;
+import com.metaphorce.shopall.exceptions.EntityDuplicateException;
+import com.metaphorce.shopall.exceptions.EntityNotFoundException;
 import com.metaphorce.shopall.repository.usuariosRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
 public class usuariosService {
     private final usuariosRepository UsuariosRepository;
@@ -33,15 +37,26 @@ public class usuariosService {
         }
         return listaUsuarios;
     }
-    public usuariosDTO guardarUsuario(usuariosDTO dto){
+    public usuariosDTO guardarUsuario(@Valid usuariosDTO dto){
+
         usuarios Usuarios = new usuarios();
-        Usuarios.setNomUsuario(dto.getNomUsuario());
+
+        if (UsuariosRepository.existsByNomUsuario(dto.getNomUsuario())) {
+            throw new EntityDuplicateException("El nombre de usuario ya existe en la base de datos");
+        }else {
+            Usuarios.setNomUsuario(dto.getNomUsuario());
+        }
+
+        if (UsuariosRepository.existsByCorreo(dto.getCorreo())) {
+            throw new EntityDuplicateException("El correo ya existe en la base de datos");
+        }else{
+            Usuarios.setCorreo(dto.getCorreo());
+        }
+
         Usuarios.setContrasena(dto.getContrasena());
-        Usuarios.setCorreo(dto.getCorreo());
         Usuarios.setNombre(dto.getNombre());
         Usuarios.setApellidoPa(dto.getApellidoPa());
         Usuarios.setApellidoMa(dto.getApellidoMa());
-        Usuarios.setCorreo(dto.getCorreo());
         Usuarios.setDireccion(dto.getDireccion());
         Usuarios = UsuariosRepository.save(Usuarios);
         dto.setIdUsuario(Usuarios.getIdUsuario());

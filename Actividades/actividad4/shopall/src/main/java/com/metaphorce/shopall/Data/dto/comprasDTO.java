@@ -1,6 +1,6 @@
 package com.metaphorce.shopall.data.dto;
 
-import com.metaphorce.shopall.data.productos;
+import com.metaphorce.shopall.data.compras;
 import lombok.Getter;
 import lombok.Setter;
 import jakarta.validation.constraints.NotNull;
@@ -8,7 +8,9 @@ import jakarta.validation.constraints.Positive;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.Date;
-
+/**
+ * DTO for {@link compras}
+ */
 @Setter
 @Getter
 @Validated
