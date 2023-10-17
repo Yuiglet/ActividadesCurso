@@ -2,7 +2,6 @@ package com.metaphorce.shopall.service;
 
 import com.metaphorce.shopall.data.compras;
 import com.metaphorce.shopall.data.dto.comprasDTO;
-import com.metaphorce.shopall.data.dto.productosDTO;
 import com.metaphorce.shopall.data.formapago;
 import com.metaphorce.shopall.data.productos;
 import com.metaphorce.shopall.data.usuarios;
@@ -10,17 +9,13 @@ import com.metaphorce.shopall.repository.comprasRepository;
 import com.metaphorce.shopall.repository.formapagoRepository;
 import com.metaphorce.shopall.repository.productosRepository;
 import com.metaphorce.shopall.repository.usuariosRepository;
-import jakarta.persistence.EntityNotFoundException;
+import com.metaphorce.shopall.exceptions.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Optional;
 
 @Service
 public class comprasService {
