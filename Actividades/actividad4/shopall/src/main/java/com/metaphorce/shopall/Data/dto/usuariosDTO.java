@@ -1,7 +1,5 @@
 package com.metaphorce.shopall.data.dto;
 
-
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
