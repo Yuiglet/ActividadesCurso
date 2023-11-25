@@ -1,12 +1,15 @@
 package com.metaphorce.shopall.service;
 
+import com.metaphorce.shopall.data.dto.respuestaGenerica;
 import com.metaphorce.shopall.data.dto.usuariosDTO;
 import com.metaphorce.shopall.data.usuarios;
 import com.metaphorce.shopall.exceptions.EntityDuplicateException;
+import com.metaphorce.shopall.utils.constantes;
 import com.metaphorce.shopall.exceptions.EntityNotFoundException;
 import com.metaphorce.shopall.repository.usuariosRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,6 +18,8 @@ import java.util.List;
 @Service
 public class usuariosService {
     private final usuariosRepository UsuariosRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Autowired
     public usuariosService(usuariosRepository UsuariosRepository){
         this.UsuariosRepository = UsuariosRepository;
@@ -37,8 +42,8 @@ public class usuariosService {
         }
         return listaUsuarios;
     }
-    public usuariosDTO guardarUsuario(@Valid usuariosDTO dto){
-
+    public respuestaGenerica guardarUsuario(@Valid usuariosDTO dto){
+        respuestaGenerica RespuestaGenerica = new respuestaGenerica();
         usuarios Usuarios = new usuarios();
 
         if (UsuariosRepository.existsByNomUsuario(dto.getNomUsuario())) {
@@ -53,13 +58,15 @@ public class usuariosService {
             Usuarios.setCorreo(dto.getCorreo());
         }
 
-        Usuarios.setContrasena(dto.getContrasena());
+        Usuarios.setContrasena(passwordEncoder.encode(dto.getContrasena()));
         Usuarios.setNombre(dto.getNombre());
         Usuarios.setApellidoPa(dto.getApellidoPa());
         Usuarios.setApellidoMa(dto.getApellidoMa());
         Usuarios.setDireccion(dto.getDireccion());
         Usuarios = UsuariosRepository.save(Usuarios);
         dto.setIdUsuario(Usuarios.getIdUsuario());
-        return dto;
+        RespuestaGenerica.setMensaje(constantes.MENSAJE_USUARIO_EXITO);
+        RespuestaGenerica.setExito(true);
+        return RespuestaGenerica;
     }
 }
