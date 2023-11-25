@@ -2,6 +2,7 @@ package com.metaphorce.shopall.service;
 
 import com.metaphorce.shopall.data.compras;
 import com.metaphorce.shopall.data.dto.comprasDTO;
+import com.metaphorce.shopall.data.dto.respuestaGenerica;
 import com.metaphorce.shopall.data.formapago;
 import com.metaphorce.shopall.data.productos;
 import com.metaphorce.shopall.data.usuarios;
@@ -10,6 +11,7 @@ import com.metaphorce.shopall.repository.formapagoRepository;
 import com.metaphorce.shopall.repository.productosRepository;
 import com.metaphorce.shopall.repository.usuariosRepository;
 import com.metaphorce.shopall.exceptions.EntityNotFoundException;
+import com.metaphorce.shopall.utils.constantes;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;;
@@ -32,8 +34,8 @@ public class comprasService {
     private formapagoRepository FormapagoRepository;
 
     @Transactional
-    public comprasDTO nuevaCompra(@Valid comprasDTO ComprasDto){
-
+    public respuestaGenerica nuevaCompra(@Valid comprasDTO ComprasDto){
+        respuestaGenerica respuesta = new respuestaGenerica();
         compras Compra = new compras();
 
         Compra.setCantidad(ComprasDto.getCantidad());
@@ -58,12 +60,10 @@ public class comprasService {
         Compra.setIdProducto(productoCom);
 
         ComprasRepository.save(Compra);
-
-        ComprasDto.setIdCompra(Compra.getIdCompra());
-        ComprasDto.setTotal(Compra.getTotal());
-        ComprasDto.setCantidad(Compra.getCantidad());
-        ComprasDto.setFecha(Compra.getFecha());
-        return  ComprasDto;
+        respuesta.setExito(true);
+        respuesta.getDatos().add(ComprasDto);
+        respuesta.setMensaje(constantes.MENSAJE_EXITO_COMPRA);
+        return respuesta;
     }
 
 }

@@ -2,8 +2,10 @@ package com.metaphorce.shopall.service;
 
 import com.metaphorce.shopall.data.categorias;
 import com.metaphorce.shopall.data.dto.categoriasDTO;
+import com.metaphorce.shopall.data.dto.respuestaGenerica;
 import com.metaphorce.shopall.exceptions.EntityDuplicateException;
 import com.metaphorce.shopall.repository.categoriasRepository;
+import com.metaphorce.shopall.utils.constantes;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,9 +16,12 @@ import java.util.List;
 @Service
 public class categoriasService {
 
-    @Autowired
-    private categoriasRepository CategoriasRepository;
+    private final categoriasRepository CategoriasRepository;
 
+    @Autowired
+    public categoriasService(categoriasRepository CategoriasRepository) {
+        this.CategoriasRepository = CategoriasRepository;
+    }
     public List<categoriasDTO> getCategorias(){
         List<categoriasDTO> listaCategorias = new ArrayList<>();
 
@@ -33,18 +38,17 @@ public class categoriasService {
         return listaCategorias;
     }
 
-    public categoriasDTO guardarCategoria(@Valid categoriasDTO dto){
-
+    public respuestaGenerica guardarCategoria(@Valid categoriasDTO dto){
+        respuestaGenerica respuesta = new respuestaGenerica();
         categorias Categorias = new categorias();
-
-        if (CategoriasRepository.existsByNombre(dto.getNombre())) {
-            throw new EntityDuplicateException("Forma de pago existente");
-        }else {
-            Categorias.setNombre(dto.getNombre());
-        }
+        Categorias.setNombre(dto.getNombre());
         Categorias.setDescripcion(dto.getDescripcion());
-        Categorias = CategoriasRepository.save(Categorias);
+
+        CategoriasRepository.save(Categorias);
         dto.setIdCategoria(Categorias.getIdCategoria());
-        return dto;
+        respuesta.setExito(true);
+        respuesta.getDatos().add(dto);
+        respuesta.setMensaje(constantes.MENSJAE_REGISTRO_CATEGORIA+dto.getIdCategoria());
+        return respuesta;
     }
 }

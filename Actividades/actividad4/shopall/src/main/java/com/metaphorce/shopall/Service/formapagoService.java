@@ -1,9 +1,10 @@
 package com.metaphorce.shopall.service;
 
 import com.metaphorce.shopall.data.dto.formapagoDTO;
+import com.metaphorce.shopall.data.dto.respuestaGenerica;
 import com.metaphorce.shopall.data.formapago;
-import com.metaphorce.shopall.exceptions.EntityDuplicateException;
 import com.metaphorce.shopall.repository.formapagoRepository;
+import com.metaphorce.shopall.utils.constantes;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,19 +33,18 @@ public class formapagoService {
         return listaFormapago;
     }
 
-    public formapagoDTO guardarFormapago(@Valid formapagoDTO dto){
-
+    public respuestaGenerica guardarFormapago(@Valid formapagoDTO dto){
+        respuestaGenerica respuesta = new respuestaGenerica();
         formapago Formapago = new formapago();
-
-        if (FormapagoRepository.existsByNombre(dto.getNombre())) {
-            throw new EntityDuplicateException("Forma de pago existente");
-        }else {
-            Formapago.setNombre(dto.getNombre());
-        }
+        Formapago.setNombre(dto.getNombre());
         Formapago.setDescripcion(dto.getDescripcion());
-        Formapago = FormapagoRepository.save(Formapago);
+
+        FormapagoRepository.save(Formapago);
         dto.setIdPago(Formapago.getIdPago());
-        return dto;
+        respuesta.setExito(true);
+        respuesta.getDatos().add(dto);
+        respuesta.setMensaje(constantes.MENSAJE_REGISTRO_FORMAPAGO+dto.getIdPago());
+        return respuesta;
     }
 
 
